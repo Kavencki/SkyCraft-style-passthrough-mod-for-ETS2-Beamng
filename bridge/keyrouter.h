@@ -220,7 +220,7 @@ private:
         GetWindowTextA(fg, title, sizeof(title));
         GetClassNameA(fg, cls, sizeof(cls));
         if (strstr(title, "Euro Truck Simulator 2")) { ets2_ = fg; return true; }
-        return strcmp(cls, "EuroSpeedOverlay") == 0;
+        return strcmp(cls, "EuroBeamNGOverlay") == 0;
     }
 
     void ReleaseAll() {

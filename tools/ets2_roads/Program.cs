@@ -1,5 +1,5 @@
 // ets2_roads - exports the drivable road surface around a point of the ETS2 map
-// for EuroSpeed's CollisionField (BeamNG builds solid roads from it).
+// for EuroBeamNG's CollisionField (BeamNG builds solid roads from it).
 //
 //   ets2_roads --game "<ETS2 folder>" --x 43618 --z -25649 [--radius 20000] [--out roads.bin]
 //
@@ -431,10 +431,10 @@ static class Program
         double cx = double.NaN, cz = double.NaN, radius = 20000;
         string outPath = "roads.bin";
         string dumpLooks = null;
-        string tilesVfs = "/art/eurospeed/tiles";
+        string tilesVfs = "/art/eurobeamng/tiles";
         string hfDir = null;   // --heightfield-dir: ground as height grids (BeamNG TerrainBlock), meshes only for the rest
         string tilesDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            @"BeamNG\BeamNG.drive\current\mods\unpacked\eurospeed\art\eurospeed\tiles");
+            @"BeamNG\BeamNG.drive\current\mods\unpacked\eurobeamng\art\eurobeamng\tiles");
         for (int i = 0; i < args.Length; i++)
         {
             switch (args[i])
@@ -475,7 +475,7 @@ static class Program
         Console.WriteLine($"opened {readers.Count} archives");
         var fs = new AssetLoader(readers.Cast<IFileSystem>().ToArray());
 
-        // ES_INVISIBLE=<truck id>[;<mod file>]: builds the EuroSpeed invisible-truck mod for that
+        // ES_INVISIBLE=<truck id>[;<mod file>]: builds the EuroBeamNG invisible-truck mod for that
         // player truck (e.g. scania.s_2016). Every model the truck's definitions use is copied with
         // all its materials switched to one "eut2.shadowonly" material: the truck is not drawn but
         // still casts its shadow; its lights (separate light sources) still light the road.
@@ -1527,7 +1527,7 @@ static class Program
         }
         Console.WriteLine($"gaps filled: {gapQuads} quads, side walls: {wallQuads} quads");
 
-        // Mesh tiles straight into the BeamNG mod (seen by BeamNG as /art/eurospeed/tiles/...).
+        // Mesh tiles straight into the BeamNG mod (seen by BeamNG as /art/eurobeamng/tiles/...).
         tiles.HeightfieldDir = hfDir;
         tiles.Area = (cx, cz, radius);
         tiles.Write(tilesDir, tilesVfs);

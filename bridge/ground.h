@@ -31,8 +31,8 @@ public:
 
     bool enabled = false;
     std::string hfDir;     // the generator's height tiles (outside BeamNG)
-    std::string terDir;    // BeamNG user folder's temp\eurospeed (real path)
-    const char* terVfs = "/temp/eurospeed/";
+    std::string terDir;    // BeamNG user folder's temp\eurobeamng (real path)
+    const char* terVfs = "/temp/eurobeamng/";
 
     ~Ground() { if (worker_.joinable()) worker_.join(); }
 
@@ -222,7 +222,7 @@ private:
         fwrite(q.data(), 2, q.size(), f);
         fwrite(lay.data(), 1, lay.size(), f);
         fwrite(&mats, 4, 1, f);
-        for (const char* m : {"eurospeed_asphalt", "eurospeed_grass"}) {
+        for (const char* m : {"eurobeamng_asphalt", "eurobeamng_grass"}) {
             const uint8_t len = uint8_t(strlen(m));
             fwrite(&len, 1, 1, f);
             fwrite(m, 1, len, f);

@@ -1,8 +1,8 @@
 // fake_ets2.exe - stand-in for eurotrucks2.exe's SCS SDK plugin host.
-// Loads eurospeed.dll through the real SDK ABI (scs_telemetry_init v1.01),
+// Loads eurobeamng.dll through the real SDK ABI (scs_telemetry_init v1.01),
 // feeds it a parked truck, and pumps frame events at 60 Hz.
 //
-//   fake_ets2 <path\to\eurospeed.dll> [--seconds N] [--convoy] [--truckersmp] [--follow]
+//   fake_ets2 <path\to\eurobeamng.dll> [--seconds N] [--convoy] [--truckersmp] [--follow]
 //     --convoy      report multiplayer.time.offset != 0 (plugin must go inert)
 //     --follow      move the fake truck to the plugin's target each frame
 //                   (what Phase 1 TruckPuppet will do in the real game)
@@ -16,7 +16,7 @@
 #include "scssdk_telemetry.h"
 #include "eurotrucks2/scssdk_eut2.h"
 #include "eurotrucks2/scssdk_telemetry_eut2.h"
-#include "../protocol/eurospeed_protocol.h"
+#include "../protocol/eurobeamng_protocol.h"
 
 struct ChannelReg { scs_telemetry_channel_callback_t cb; scs_context_t ctx; scs_value_type_t type; };
 static std::map<scs_event_t, std::pair<scs_telemetry_event_callback_t, scs_context_t>> g_events;
@@ -58,7 +58,7 @@ static void FireChannel(const char* name, const scs_value_t* v) {
 }
 
 int main(int argc, char** argv) {
-    if (argc < 2) { printf("usage: fake_ets2 <eurospeed.dll> [--seconds N] [--convoy] [--follow]\n"); return 2; }
+    if (argc < 2) { printf("usage: fake_ets2 <eurobeamng.dll> [--seconds N] [--convoy] [--follow]\n"); return 2; }
     int seconds = 5;
     bool convoy = false, follow = false;
     for (int i = 2; i < argc; ++i) {

@@ -1,6 +1,6 @@
-// EuroSpeed shared-memory protocol. Both halves include this file:
+// EuroBeamNG shared-memory protocol. Both halves include this file:
 //   lfs_bridge.exe   (LFS side: OutSim/InSim -> here)
-//   eurospeed.dll    (ETS2 SCS SDK plugin, runs inside eurotrucks2.exe)
+//   eurobeamng.dll    (ETS2 SCS SDK plugin, runs inside eurotrucks2.exe)
 // Fixed-size, little-endian, x64 only. Bump kVersion on any layout change.
 #pragma once
 #include <atomic>
@@ -11,7 +11,7 @@ namespace es {
 
 constexpr uint32_t kMagic   = 0x44505345;  // "ESPD"
 constexpr uint32_t kVersion = 6;
-constexpr wchar_t  kShmName[] = L"Local\\EuroSpeed_v1";
+constexpr wchar_t  kShmName[] = L"Local\\EuroBeamNG_v1";
 
 // Peer is considered gone if its heartbeat is older than this.
 constexpr uint64_t kHeartbeatTimeoutMs = 2000;

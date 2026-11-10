@@ -1,4 +1,4 @@
-# EuroSpeed
+# EuroBeamNG
 
 Drive a **BeamNG.drive** car in the **Euro Truck Simulator 2** world. BeamNG simulates the car
 (soft-body physics, your wheel, its cabin); ETS2 draws the world around it (the map, traffic,
@@ -11,7 +11,7 @@ weather). Neither game is rewritten:
 - a **bridge** program connects the two games and reads your wheel and pedals;
 - an **overlay** draws the BeamNG car's cabin on top of ETS2's picture.
 
-**Single player only.** EuroSpeed does nothing in ETS2 multiplayer (Convoy, TruckersMP) or BeamMP.
+**Single player only.** EuroBeamNG does nothing in ETS2 multiplayer (Convoy, TruckersMP) or BeamMP.
 
 ## Requirements
 
@@ -22,17 +22,21 @@ weather). Neither game is rewritten:
 
 ## Install
 
-1. Download `EuroSpeed-<version>.zip` from [Releases](../../releases) and unzip it anywhere.
+There are two downloads: `EuroBeamNG-<version>.zip` installs itself (`install.bat`, below);
+`EuroBeamNG-<version>-manual.zip` has no installer - follow `INSTALL_MANUAL.md` in it (the same
+steps by hand; that guide is in both).
+
+1. Download `EuroBeamNG-<version>.zip` from [Releases](../../releases) and unzip it anywhere.
 2. Start BeamNG.drive once if you never have (it creates its user folder), then close both games.
 3. Run **`install.bat`**. It finds ETS2 through Steam and puts in place:
-   the ETS2 plugin (`<ETS2>\bin\win_x64\plugins\eurospeed.dll`), the BeamNG mod
-   (`%LOCALAPPDATA%\BeamNG\BeamNG.drive\current\mods\unpacked\eurospeed`) and the
+   the ETS2 plugin (`<ETS2>\bin\win_x64\plugins\eurobeamng.dll`), the BeamNG mod
+   (`%LOCALAPPDATA%\BeamNG\BeamNG.drive\current\mods\unpacked\eurobeamng`) and the
    invisible licence plates mod.
 4. Start ETS2, load your profile and sit in your truck. ETS2 asks once about
    *advanced SDK features*: answer **OK**. Close ETS2 again.
 5. Run **`make_invisible_truck.bat`**: it builds a mod that hides your truck (shadow and lights
    stay), from your own game's files, for the truck you drive. Run it again after you change trucks.
-6. In ETS2's **Mod Manager** enable *EuroSpeed invisible truck* and *EuroSpeed invisible licence plates*.
+6. In ETS2's **Mod Manager** enable *EuroBeamNG invisible truck* and *EuroBeamNG invisible licence plates*.
 
 ## Play
 
@@ -70,14 +74,14 @@ log, the link is off for that session.
 |---|---|
 | `bin\wheel.ini` | `[wheel]` axes, force feedback, H shifter buttons (`bin\wheeltest.exe` shows them) · `[keys]` keyboard routing · `[view]` car height in ETS2's picture · `[ground]` invisible terrain on/off · `[time]` ETS2's sunrise/sunset and the key colour's glow |
 | `bin\overlay.ini` | `[gps]` where ETS2's navigation is taken from and shown |
-| `<ETS2>\bin\win_x64\plugins\eurospeed.ini` | `[camera]` field of view · `[truck]` the following truck · `[fuel]` fuel link |
+| `<ETS2>\bin\win_x64\plugins\eurobeamng.ini` | `[camera]` field of view · `[truck]` the following truck · `[fuel]` fuel link |
 
 Restart the bridge (or ETS2, for the plugin's file) after a change.
 
 ## When something is off
 
 - Logs: `bin\bridge.log`, ETS2's `Documents\Euro Truck Simulator 2\game.log.txt` (lines with
-  `[EuroSpeed]`), BeamNG's `%LOCALAPPDATA%\BeamNG\BeamNG.drive\current\beamng.log`.
+  `[EuroBeamNG]`), BeamNG's `%LOCALAPPDATA%\BeamNG\BeamNG.drive\current\beamng.log`.
 - **After an ETS2 update** the plugin finds the game code it needs by itself in most cases. If
   ETS2's camera no longer follows the car (`camera driver unavailable` in ETS2's log), run
   `bin\codescan_test.exe "<ETS2>\bin\win_x64\eurotrucks2.exe"` and open an issue with its output.
@@ -102,12 +106,12 @@ Software or BeamNG GmbH.
 
 ## Lietuviškai
 
-**EuroSpeed**: BeamNG.drive mašina ETS2 pasaulyje. BeamNG skaičiuoja mašiną, ETS2 piešia
+**EuroBeamNG**: BeamNG.drive mašina ETS2 pasaulyje. BeamNG skaičiuoja mašiną, ETS2 piešia
 pasaulį. Tik vieno žaidėjo režimas (multiplayer'yje nieko nedaro).
 
 **Įdiegimas:** išarchyvuok zip, uždaryk abu žaidimus, paleisk `install.bat`. Tada įjunk ETS2, sėsk
 į furą (į klausimą apie *advanced SDK features* atsakyk OK), uždaryk ETS2 ir paleisk
-`make_invisible_truck.bat`. ETS2 Mod Manager'yje įjunk abu *EuroSpeed invisible* mod'us.
+`make_invisible_truck.bat`. ETS2 Mod Manager'yje įjunk abu *EuroBeamNG invisible* mod'us.
 
 **Abu žaidimai būtinai lange (windowed mode):** ETS2 *Options → Graphics → Fullscreen* išjungtas,
 BeamNG *Display mode → Window*. Per visą ekraną overlay negali nei piešti ant ETS2, nei filmuoti BeamNG.

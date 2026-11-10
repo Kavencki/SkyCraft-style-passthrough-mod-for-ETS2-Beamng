@@ -9,7 +9,7 @@ set CF=/nologo /std:c++17 /EHsc /O2 /W4 /MT /I third_party\scssdk /Fobuild\ /Fdb
 
 rem (tools\re\ holds the reverse-engineering probe and es_ctl; only sigscan is built.)
 rem The road generator (C#, .NET 10): dotnet build tools\ets2_roads -c Release -o build\ets2_roads
-cl %CF% ets2_plugin\eurospeed_plugin.cpp ets2_plugin\camhook.cpp ets2_plugin\truckpuppet.cpp ets2_plugin\fuel.cpp /LD /Febuild\eurospeed.dll /link /DEF:ets2_plugin\eurospeed.def || exit /b 1
+cl %CF% ets2_plugin\eurobeamng_plugin.cpp ets2_plugin\camhook.cpp ets2_plugin\truckpuppet.cpp ets2_plugin\fuel.cpp /LD /Febuild\eurobeamng.dll /link /DEF:ets2_plugin\eurobeamng.def || exit /b 1
 cl %CF% bridge\lfs_bridge.cpp /Febuild\lfs_bridge.exe || exit /b 1
 cl %CF% tools\fake_ets2.cpp /Febuild\fake_ets2.exe || exit /b 1
 cl %CF% tools\fake_lfs.cpp /Febuild\fake_lfs.exe || exit /b 1

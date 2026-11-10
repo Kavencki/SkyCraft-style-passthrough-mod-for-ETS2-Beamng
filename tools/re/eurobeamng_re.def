@@ -1,4 +1,4 @@
-LIBRARY eurospeed_re
+LIBRARY eurobeamng_re
 EXPORTS
     scs_telemetry_init
     scs_telemetry_shutdown

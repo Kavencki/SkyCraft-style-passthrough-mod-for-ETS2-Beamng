@@ -59,7 +59,7 @@ struct Wheel {
         if (!hwnd) hwnd = GetDesktopWindow();
         dev->SetDataFormat(&c_dfDIJoystick2);
         if (wantFfb) {
-            hidden = CreateWindowExA(WS_EX_TOOLWINDOW, "STATIC", "EuroSpeed FFB", WS_POPUP, 0, 0, 1, 1, nullptr, nullptr,
+            hidden = CreateWindowExA(WS_EX_TOOLWINDOW, "STATIC", "EuroBeamNG FFB", WS_POPUP, 0, 0, 1, 1, nullptr, nullptr,
                                      GetModuleHandleA(nullptr), nullptr);
             exclusive = hidden && SUCCEEDED(dev->SetCooperativeLevel(hidden, DISCL_BACKGROUND | DISCL_EXCLUSIVE));
         }

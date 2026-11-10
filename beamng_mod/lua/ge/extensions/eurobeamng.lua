@@ -1,4 +1,4 @@
--- EuroSpeed: the BeamNG half. BeamNG simulates the car; ETS2 draws the world.
+-- EuroBeamNG: the BeamNG half. BeamNG simulates the car; ETS2 draws the world.
 -- Every frame this sends the player camera and vehicle pose to lfs_bridge.exe
 -- (UDP 127.0.0.1:30001). From the bridge (UDP :30002) it receives ETS2 road strips,
 -- which become solid MeshRoads so the car drives on the real ETS2 road shape, and
@@ -9,7 +9,7 @@
 -- BeamNG world: X east, Y north, Z up, metres.
 
 local M = {}
-local logTag = 'eurospeed'
+local logTag = 'eurobeamng'
 
 local host, port = '127.0.0.1', 30001
 local inputPort = 30002            -- ETS2 driver inputs from lfs_bridge.exe
@@ -98,7 +98,7 @@ for _, s in pairs((energyStorage and energyStorage.getStorages and energyStorage
     l = l + (s.remainingVolume or ((s.remainingRatio or 0) * s.capacity))
   end
 end
-if c > 0 then obj:queueGameEngineLua(string.format('if eurospeed then eurospeed.onFuel(%f, %f) end', l, c)) end
+if c > 0 then obj:queueGameEngineLua(string.format('if eurobeamng then eurobeamng.onFuel(%f, %f) end', l, c)) end
 ]]
 -- Fills the car's fuel tanks to `litres` in total (same ratio in every tank).
 local fuelSet = [[
@@ -234,7 +234,7 @@ end
 local function buildRoad(r)
   if roads[r.id] or #r.points < 2 then return end
   local road = createObject('MeshRoad')
-  road:registerObject('eurospeed_road_' .. r.id)
+  road:registerObject('eurobeamng_road_' .. r.id)
   if scenetree.MissionGroup then scenetree.MissionGroup:add(road) end
   road:setPosition(r.points[1])
   local up = vec3(0, 0, 1)
@@ -275,7 +275,7 @@ local function buildTile(t)
   obj:setField('collisionType', 0, 'Visible Mesh Final')
   obj.canSave = false
   placeTile(obj, t, tileYawSign or 1)
-  obj:registerObject('eurospeed_tile_' .. t.id)
+  obj:registerObject('eurobeamng_tile_' .. t.id)
   if scenetree.MissionGroup then scenetree.MissionGroup:add(obj) end
   if not tileYawSign and math.abs(t.yaw) > 1e-4 then
     -- First tile: find the rotation sign that puts the check point where the bridge expects.
@@ -305,7 +305,7 @@ local keyMaterialsLoaded = false
 local function loadKeyMaterials()
   if keyMaterialsLoaded then return end
   keyMaterialsLoaded = true
-  local ok, err = pcall(loadJsonMaterialsFile, '/art/eurospeed/main.materials.json')
+  local ok, err = pcall(loadJsonMaterialsFile, '/art/eurobeamng/main.materials.json')
   log(ok and 'I' or 'E', logTag, ok and 'key colour materials loaded' or ('key colour materials: ' .. tostring(err)))
 end
 
@@ -347,8 +347,8 @@ end
 -- ~10 ms and its collision follows with no collision rebuild - unlike mesh tiles, whose every change
 -- rebuilt all static collision (a hitch). Only bridges, walls and such stay mesh tiles.
 -- A level can hold one TerrainBlock: in a level with its own terrain the bridge sends full mesh tiles.
-local groundName = 'eurospeed_ground'
-local groundDir = '/art/eurospeed/terrain/'
+local groundName = 'eurobeamng_ground'
+local groundDir = '/art/eurobeamng/terrain/'
 local groundSeq = 0           -- the bridge's number of the block in use (0 = none)
 local groundFailed = false    -- the block could not be made: mesh tiles instead
 local groundNext = nil        -- the latest block sent, not applied yet
@@ -367,7 +367,7 @@ end
 local function groundBlock(maxH)
   local tb = scenetree.findObject(groundName)
   if tb then return tb, false end
-  if not scenetree.findObject('eurospeed_asphalt') or not scenetree.findObject('eurospeed_TerrainMaterialTextureSet') then
+  if not scenetree.findObject('eurobeamng_asphalt') or not scenetree.findObject('eurobeamng_TerrainMaterialTextureSet') then
     loadJsonMaterialsFile(groundDir .. 'main.materials.json')
   end
   tb = TerrainBlock()
@@ -376,11 +376,11 @@ local function groundBlock(maxH)
   tb:setField('castShadows', 0, '0')
   tb:registerObject(groundName)
   tb.canSave = false
-  tb:setTerrFileLvlFolder('/temp/eurospeed/')
-  tb:setField('materialTextureSet', 0, 'eurospeed_TerrainMaterialTextureSet')
+  tb:setTerrFileLvlFolder('/temp/eurobeamng/')
+  tb:setField('materialTextureSet', 0, 'eurobeamng_TerrainMaterialTextureSet')
   scenetree.MissionGroup:addObject(tb)
   -- The .ter files name these two (layer 0 road surfaces, 1 the rest).
-  local mats = { 'eurospeed_asphalt', 'eurospeed_grass' }
+  local mats = { 'eurobeamng_asphalt', 'eurobeamng_grass' }
   for i, m in ipairs(mats) do
     tb:addMaterial(m, -1)
     tb:updateMaterial(i - 1, m)
@@ -526,7 +526,7 @@ local function pollInput()
       -- The bridge switched where the keyboard goes (shown in BeamNG's UI, seen over ETS2).
       local mode = msg:match('^ESKM (%S+)')
       if mode then
-        pcall(ui_message, mode == 'beamng' and 'Keyboard -> BeamNG' or 'Keyboard -> ETS2', 2, 'eurospeed_keys')
+        pcall(ui_message, mode == 'beamng' and 'Keyboard -> BeamNG' or 'Keyboard -> ETS2', 2, 'eurobeamng_keys')
       end
     elseif tag == 'ESK1' then
       -- Refuelling at an ETS2 station: the car's tanks get this many litres.
@@ -580,7 +580,7 @@ hydros.enableVirtualWheel(true, function() return esSteer end, function(o, id, t
     esLastFfb = t
     local lim = hydros.wheelFFBForceLimit
     if not lim or lim <= 0 then lim = 1 end
-    obj:queueGameEngineLua(string.format('if eurospeed then eurospeed.onFFB(%.4f) end', torque / lim))
+    obj:queueGameEngineLua(string.format('if eurobeamng then eurobeamng.onFFB(%.4f) end', torque / lim))
   end
 end)
 ]]
@@ -642,7 +642,7 @@ end
 
 ---------------------------------------------------------------------------
 -- Key box: everything around the car renders as one key colour (magenta), so the
--- EuroSpeed overlay can show just the car (cabin or whole car) on top of ETS2.
+-- EuroBeamNG overlay can show just the car (cabin or whole car) on top of ETS2.
 local keyBox = nil
 
 local function setScaleCompat(obj, s)
@@ -664,7 +664,7 @@ local function setFogOff(off)
   pcall(function() li:postApply() end)
 end
 
--- BeamNG mutes itself when its window loses focus; with EuroSpeed the driver sits in ETS2's
+-- BeamNG mutes itself when its window loses focus; with EuroBeamNG the driver sits in ETS2's
 -- window, so keep the car's sound playing (a normal BeamNG setting, also in Options > Audio).
 local function keepAudioInBackground()
   if settings.getValue('AudioMuteOnWindowLoseFocus') ~= false then
@@ -700,11 +700,11 @@ local function updateKeyBox(veh)
   if not keyBox then pcall(setFogOff, true) pcall(setPostFxForKey, true) pcall(keepAudioInBackground) end
   if not keyBox then
     keyBox = createObject('TSStatic')
-    keyBox:setField('shapeName', 0, '/art/eurospeed/keybox.dae')
+    keyBox:setField('shapeName', 0, '/art/eurobeamng/keybox.dae')
     keyBox:setField('collisionType', 0, 'None')
     keyBox:setField('decalType', 0, 'None')
     keyBox.canSave = false
-    keyBox:registerObject('eurospeed_keybox')
+    keyBox:registerObject('eurobeamng_keybox')
     if scenetree.MissionGroup then scenetree.MissionGroup:add(keyBox) end
     log('I', logTag, 'key box on (overlay mode)')
   end
@@ -741,7 +741,7 @@ local function onPreRender(dtReal)
   local mp = reason ~= nil
   if mp ~= inert then
     inert = mp
-    log('W', logTag, inert and ('multiplayer (' .. reason .. '): EuroSpeed inert') or 'no multiplayer: EuroSpeed active')
+    log('W', logTag, inert and ('multiplayer (' .. reason .. '): EuroBeamNG inert') or 'no multiplayer: EuroBeamNG active')
   end
   if inert or not openSocket() then return end
   if not core_camera then return end

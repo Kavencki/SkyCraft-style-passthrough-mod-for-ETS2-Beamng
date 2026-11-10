@@ -2,7 +2,7 @@
 // map around the car (and the world reacts to "the player" where the car is). ETS2 1.61.1.1s only:
 // every code location used is checked byte for byte first.
 #pragma once
-#include "../protocol/eurospeed_protocol.h"
+#include "../protocol/eurobeamng_protocol.h"
 
 namespace truckpuppet {
 

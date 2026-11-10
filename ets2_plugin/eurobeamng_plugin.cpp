@@ -1,4 +1,4 @@
-// eurospeed.dll - the ETS2 half of EuroSpeed, loaded by the official SCS SDK
+// eurobeamng.dll - the ETS2 half of EuroBeamNG, loaded by the official SCS SDK
 // plugin loader from <ETS2>\bin\win_x64\plugins\.
 //
 // Phase 0 (Link): publish the truck's real world placement, read the target
@@ -23,7 +23,7 @@
 #include "common/scssdk_telemetry_common_configs.h"
 #include "common/scssdk_telemetry_truck_common_channels.h"
 
-#include "../protocol/eurospeed_protocol.h"
+#include "../protocol/eurobeamng_protocol.h"
 #include "camhook.h"
 #include "truckpuppet.h"
 #include "fuel.h"
@@ -45,7 +45,7 @@ bool      g_linkedLogged = false;
 
 void Log(scs_log_type_t type, const char* fmt, ...) {
     char msg[512];
-    int n = snprintf(msg, sizeof(msg), "[EuroSpeed] ");
+    int n = snprintf(msg, sizeof(msg), "[EuroBeamNG] ");
     va_list ap;
     va_start(ap, fmt);
     vsnprintf(msg + n, sizeof(msg) - n, fmt, ap);
@@ -56,7 +56,7 @@ void Log(scs_log_type_t type, const char* fmt, ...) {
 }
 
 
-// eurospeed.ini next to the plugin, e.g.
+// eurobeamng.ini next to the plugin, e.g.
 //   [camera]
 //   fov=vertical      ; vertical (default) | horizontal | off
 int ReadFovMode() {
@@ -67,7 +67,7 @@ int ReadFovMode() {
     GetModuleFileNameA(me, path, MAX_PATH);
     char* slash = strrchr(path, '\\');
     if (!slash) return 1;
-    strcpy_s(slash + 1, MAX_PATH - (slash + 1 - path), "eurospeed.ini");
+    strcpy_s(slash + 1, MAX_PATH - (slash + 1 - path), "eurobeamng.ini");
     char v[32];
     GetPrivateProfileStringA("camera", "fov", "vertical", v, sizeof(v), path);
     if (!_stricmp(v, "off")) return 0;
@@ -79,7 +79,7 @@ int ReadFovMode() {
 //   puppet=1          ; the truck follows the car (needed to drive far from where the truck was)
 //   height=1          ; metres above the road (negative = under it, out of sight)
 //   back=0            ; metres behind the car, along the road it drove
-bool g_lightsWanted = true;   // eurospeed.ini [truck] lights: the truck's low beams on while driving (HeadLights)
+bool g_lightsWanted = true;   // eurobeamng.ini [truck] lights: the truck's low beams on while driving (HeadLights)
 
 truckpuppet::Settings ReadPuppetSettings() {
     char path[MAX_PATH];
@@ -90,7 +90,7 @@ truckpuppet::Settings ReadPuppetSettings() {
     truckpuppet::Settings s;
     char* slash = strrchr(path, '\\');
     if (!slash) return s;
-    strcpy_s(slash + 1, MAX_PATH - (slash + 1 - path), "eurospeed.ini");
+    strcpy_s(slash + 1, MAX_PATH - (slash + 1 - path), "eurobeamng.ini");
     char v[32];
     GetPrivateProfileStringA("truck", "puppet", "1", v, sizeof(v), path);
     s.enabled = strcmp(v, "0") != 0;
@@ -237,8 +237,8 @@ SCSAPI_VOID OnFrameEnd(const scs_event_t, const void* const, const scs_context_t
     const bool inert = g_truckersMp || g_mpOffset != 0;
     if (inert != g_wasInert) {
         g_wasInert = inert;
-        Log(SCS_LOG_TYPE_warning, inert ? "multiplayer detected (%s): EuroSpeed is inert"
-                                        : "multiplayer ended: EuroSpeed active",
+        Log(SCS_LOG_TYPE_warning, inert ? "multiplayer detected (%s): EuroBeamNG is inert"
+                                        : "multiplayer ended: EuroBeamNG active",
             g_truckersMp ? "TruckersMP" : "Convoy");
     }
 
@@ -382,8 +382,8 @@ SCSAPI_RESULT scs_input_init(const scs_u32_t version, const scs_input_init_param
         {"light", "Light modes", SCS_VALUE_TYPE_bool},            // kInLight
     };
     scs_input_device_t dev{};
-    dev.name = "eurospeed";
-    dev.display_name = "EuroSpeed";
+    dev.name = "eurobeamng";
+    dev.display_name = "EuroBeamNG";
     dev.type = SCS_INPUT_DEVICE_TYPE_semantical;
     dev.input_count = 2;
     dev.inputs = inputs;

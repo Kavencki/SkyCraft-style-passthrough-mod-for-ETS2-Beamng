@@ -9,7 +9,7 @@
 //   +0x50 float quaternion w, x, y, z
 // No code is patched. The hook arms only if the instruction bytes match.
 #pragma once
-#include "../protocol/eurospeed_protocol.h"
+#include "../protocol/eurobeamng_protocol.h"
 
 namespace camhook {
 

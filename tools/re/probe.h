@@ -3,7 +3,7 @@
 // verifies a candidate by nudging it and watching telemetry respond.
 #pragma once
 #include <cstdint>
-#include "../protocol/eurospeed_protocol.h"
+#include "../protocol/eurobeamng_protocol.h"
 
 namespace probe {
 

@@ -1,4 +1,4 @@
-// es_ctl.exe - talks to the in-game probe in eurospeed.dll.
+// es_ctl.exe - talks to the in-game probe in eurobeamng.dll.
 //   es_ctl scan                      find truck position candidates
 //   es_ctl filter                    keep candidates matching the truck now
 //   es_ctl list
@@ -15,7 +15,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include "../protocol/eurospeed_protocol.h"
+#include "../protocol/eurobeamng_protocol.h"
 
 using namespace es;
 

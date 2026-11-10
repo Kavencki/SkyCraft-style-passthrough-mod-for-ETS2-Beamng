@@ -1,4 +1,4 @@
-// eurospeed_re.dll - a separate, temporary ETS2 SDK plugin for finding where ETS2 keeps the
+// eurobeamng_re.dll - a separate, temporary ETS2 SDK plugin for finding where ETS2 keeps the
 // player truck's physics position (TruckPuppet research). It only hosts tools/re/probe.cpp,
 // driven by es_ctl.exe through the shared memory command channel. Install it for research
 // sessions only (install_re.bat), remove it afterwards (uninstall_re.bat).
@@ -14,7 +14,7 @@
 #include "common/scssdk_telemetry_common_channels.h"
 #include "common/scssdk_telemetry_truck_common_channels.h"
 
-#include "../../protocol/eurospeed_protocol.h"
+#include "../../protocol/eurobeamng_protocol.h"
 #include "probe.h"
 
 using namespace es;
@@ -59,7 +59,7 @@ SCSAPI_RESULT scs_telemetry_init(const scs_u32_t version, const scs_telemetry_in
                             SCS_TELEMETRY_CHANNEL_FLAG_none, OnPlacement, nullptr);
     p->register_for_channel(SCS_TELEMETRY_CHANNEL_multiplayer_time_offset, SCS_U32_NIL, SCS_VALUE_TYPE_s32,
                             SCS_TELEMETRY_CHANNEL_FLAG_none, OnMpOffset, nullptr);
-    if (g_log) g_log(SCS_LOG_TYPE_message, "[EuroSpeed RE] research probe loaded (use es_ctl.exe)");
+    if (g_log) g_log(SCS_LOG_TYPE_message, "[EuroBeamNG RE] research probe loaded (use es_ctl.exe)");
     return SCS_RESULT_ok;
 }
 

@@ -115,10 +115,10 @@ int wmain(int argc, wchar_t** argv) {
     WNDCLASSW wc{};
     wc.lpfnWndProc = WndProc;
     wc.hInstance = GetModuleHandleW(nullptr);
-    wc.lpszClassName = L"EuroSpeedOverlay";
+    wc.lpszClassName = L"EuroBeamNGOverlay";
     RegisterClassW(&wc);
     HWND overlay = CreateWindowExW(WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW,
-                                   wc.lpszClassName, L"EuroSpeed overlay", WS_POPUP, 0, 0, 16, 16, nullptr, nullptr,
+                                   wc.lpszClassName, L"EuroBeamNG overlay", WS_POPUP, 0, 0, 16, 16, nullptr, nullptr,
                                    wc.hInstance, nullptr);
 
     wprintf(L"[overlay] waiting for '%ls' and '%ls' windows...\n", sourceTitle.c_str(), targetTitle.c_str());

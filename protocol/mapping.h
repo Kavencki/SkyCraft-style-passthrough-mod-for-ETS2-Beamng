@@ -10,7 +10,7 @@
 #pragma once
 #include <cmath>
 #include <cstdio>
-#include "eurospeed_protocol.h"
+#include "eurobeamng_protocol.h"
 
 namespace es {
 
@@ -161,7 +161,7 @@ inline bool ParseOutSim(const uint8_t* p, size_t len, uint32_t opts, LfsCarState
     return true;
 }
 
-// ---- BeamNG mod packets (beamng_mod/lua/ge/extensions/eurospeed.lua) ------
+// ---- BeamNG mod packets (beamng_mod/lua/ge/extensions/eurobeamng.lua) ------
 
 inline bool ParseBng(const char* line, size_t len, BngState& b) {
     char buf[512];

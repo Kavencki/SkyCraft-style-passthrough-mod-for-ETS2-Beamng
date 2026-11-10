@@ -82,10 +82,10 @@ int main(int argc, char** argv) {
         if (t >= wait) { printf("[insim] no InSim on port %d\n", port); return 1; }
         Sleep(1000);
     }
-    // IS_ISI: InSimVer 9, local flag, name "EuroSpeed".
+    // IS_ISI: InSimVer 9, local flag, name "EuroBeamNG".
     std::vector<uint8_t> isi(44, 0);
     isi[1] = ISP_ISI; isi[2] = 1; isi[6] = 4 /*ISF_LOCAL*/; isi[8] = 9;
-    memcpy(&isi[28], "EuroSpeed", 9);
+    memcpy(&isi[28], "EuroBeamNG", 9);
     SendPkt(isi);
     Tiny(TINY_ISM, 2);
     Tiny(7 /*TINY_SST*/, 2);

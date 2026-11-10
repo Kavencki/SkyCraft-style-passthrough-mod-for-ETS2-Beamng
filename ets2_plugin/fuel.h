@@ -3,7 +3,7 @@
 // object (found by TruckPuppet) once per session: a float equal to the telemetry fuel that the
 // telemetry follows when it is changed.
 #pragma once
-#include "../protocol/eurospeed_protocol.h"
+#include "../protocol/eurobeamng_protocol.h"
 
 namespace fuel {
 

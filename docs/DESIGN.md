@@ -1,4 +1,4 @@
-# EuroSpeed — Design Doc
+# EuroBeamNG — Design Doc
 
 > **Historical.** This is the first design, from when Live for Speed was the physics game.
 > BeamNG.drive replaced it; the core principle (neither game is rewritten) stayed. See the README.
@@ -11,7 +11,7 @@ Status: draft v0.1 · 2026-10-10 · Phase 0 done
 ## 1. Core principle
 
 **Neither game is rewritten.** LFS runs its own, unmodified car physics (tyres, suspension,
-drivetrain, collisions). ETS2 runs its world: map, roads, traffic, weather, rendering. EuroSpeed
+drivetrain, collisions). ETS2 runs its world: map, roads, traffic, weather, rendering. EuroBeamNG
 only translates:
 
 - ETS2 tells LFS *what the road is shaped like* (Phase 2+).
@@ -34,21 +34,21 @@ an external process that drives LFS through its official interfaces.
 
 ```
 ┌──────── LFS.exe (unmodified) ────────┐   ┌──── lfs_bridge.exe ────┐   ┌──── eurotrucks2.exe ─────────────┐
-│ car physics                          │   │                        │   │ eurospeed.dll (SCS SDK plugin)   │
+│ car physics                          │   │                        │   │ eurobeamng.dll (SCS SDK plugin)   │
 │   OutSim UDP :30000 ─────────────────┼──▶│ parse, anchor, map     │   │                                  │
 │   InSim TCP :29999 ◀─────────────────┼───│ (Phase 2: road objects,│   │ telemetry: truck placement ──────┼─┐
 │                                      │   │  re-centring)          │   │ TruckPuppet (Phase 1, RE)        │ │
 └──────────────────────────────────────┘   └───────────┬────────────┘   └──────────────┬───────────────────┘ │
-                                                       └── shared memory Local\EuroSpeed_v1 ──┘◀─────────────┘
+                                                       └── shared memory Local\EuroBeamNG_v1 ──┘◀─────────────┘
 ```
 
-| SkyCraft | EuroSpeed |
+| SkyCraft | EuroBeamNG |
 |---|---|
 | Minecraft (authoritative player physics) | **LFS** (authoritative car physics) |
 | Skyrim (world, renders everything) | **ETS2** (world, renders everything) |
 | Fabric mod | `lfs_bridge.exe` (OutSim/InSim, no injection) |
-| SKSE plugin | `eurospeed.dll`, official SCS SDK plugin |
-| `Local\SkyCraft_v1` | `Local\EuroSpeed_v1` (`protocol/eurospeed_protocol.h`) |
+| SKSE plugin | `eurobeamng.dll`, official SCS SDK plugin |
+| `Local\SkyCraft_v1` | `Local\EuroBeamNG_v1` (`protocol/eurobeamng_protocol.h`) |
 | `fake_skyrim.py` | `fake_ets2.exe` (loads the DLL through the real SDK ABI), `fake_lfs.exe` |
 
 ## 4. Coordinate mapping (`protocol/mapping.h`, unit-tested)

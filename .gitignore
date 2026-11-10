@@ -12,7 +12,7 @@ tools/ets2_roads/roads.bin
 *.log
 
 # generated in the BeamNG mod (per player)
-beamng_mod/art/eurospeed/tiles*/
+beamng_mod/art/eurobeamng/tiles*/
 
 # local reference copies of TruckLib's sources (the build takes TruckLib from NuGet)
 third_party/TruckLib*-master/

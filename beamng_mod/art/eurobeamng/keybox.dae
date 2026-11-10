@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- EuroSpeed key box: a unit cube (-1..1) in the key colour, faces on both sides.
+<!-- EuroBeamNG key box: a unit cube (-1..1) in the key colour, faces on both sides.
      The mod scales it around the player car so everything outside the car renders as
      key colour, which the overlay cuts out over ETS2. -->
 <COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">

@@ -27,6 +27,31 @@ $Ets2Docs = Join-Path ([Environment]::GetFolderPath("MyDocuments")) "Euro Truck 
 
 function Say([string]$m, [string]$c = "Gray") { Write-Host $m -ForegroundColor $c }
 
+# Before 0.1.0 the project was called EuroSpeed: its files under the old names go (the old plugin
+# next to the new one would run twice, the old BeamNG mod would take the same ports). The old
+# plugin settings become the new ones if there are none yet.
+function Remove-OldName([string]$ets2) {
+    $gone = @()
+    if ($ets2) {
+        $plug = Join-Path $ets2 "bin\win_x64\plugins"
+        $oldIni = Join-Path $plug "eurospeed.ini"; $newIni = Join-Path $plug "eurobeamng.ini"
+        if ((Test-Path $oldIni) -and -not (Test-Path $newIni)) { Move-Item $oldIni $newIni; Say "kept your plugin settings: eurospeed.ini -> eurobeamng.ini" }
+        foreach ($f in @("eurospeed.dll", "eurospeed.ini", "eurospeed_re.dll")) {
+            $p = Join-Path $plug $f
+            if (Test-Path $p) { Remove-Item $p; $gone += $p }
+        }
+    }
+    foreach ($f in @("eurospeed_invisible_truck.scs", "eurospeed_invisible_plates.scs")) {
+        $p = Join-Path $Ets2Docs "mod\$f"
+        if (Test-Path $p) { Remove-Item $p; $gone += $p }
+    }
+    foreach ($d in @("mods\unpacked\eurospeed", "temp\eurospeed")) {
+        $p = Join-Path $BeamUser $d
+        if (Test-Path $p) { Remove-Item $p -Recurse; $gone += $p }
+    }
+    foreach ($p in $gone) { Say "removed (old name EuroSpeed): $p" }
+}
+
 # The games and the bridge must be closed (their files are in use).
 function Assert-Closed {
     foreach ($p in @("eurotrucks2", "BeamNG.drive.x64", "lfs_bridge")) {

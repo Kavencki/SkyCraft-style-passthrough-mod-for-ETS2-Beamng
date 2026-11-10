@@ -1,4 +1,4 @@
-// Builds the EuroSpeed invisible-truck mod (.scs) for one player truck.
+// Builds the EuroBeamNG invisible-truck mod (.scs) for one player truck.
 //
 // ETS2 materials are shared, auto-generated files (/automat/xx/hash.mat) used by roads, buildings
 // and trucks alike, so they cannot be overridden. Instead the truck's own models (.pmd) are
@@ -13,7 +13,7 @@ using TruckLib.HashFs;
 
 static class InvisibleTruck
 {
-    const string ShadowMat = "/eurospeed/shadow_only.mat";
+    const string ShadowMat = "/eurobeamng/shadow_only.mat";
     // The render-path (".rfx") variant: every real truck material uses one; the plain
     // "eut2.shadowonly" crashed ETS2 while loading the truck (null shader entry).
     static string Effect = "eut2.shadowonly.rfx";
@@ -45,7 +45,7 @@ static class InvisibleTruck
         string truckId = parts[0].Trim();
         if (parts.Length > 2 && parts[2].Length > 0) Effect = parts[2];
         string outFile = parts.Length > 1 ? parts[1] : Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Euro Truck Simulator 2", "mod", "eurospeed_invisible_truck.scs");
+            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Euro Truck Simulator 2", "mod", "eurobeamng_invisible_truck.scs");
 
         // 1. The truck's definitions -> the models they use. (Not /def/vehicle/t_wheel: those are the
         // trailers' wheels - taking them made every trailer's wheels invisible.)
@@ -99,7 +99,7 @@ static class InvisibleTruck
                           $"{shared} left visible (other vehicles use them too)");
 
         // 5. Rewrite the models, pack the mod.
-        var tmp = Path.Combine(Path.GetTempPath(), "eurospeed_invisible_" + Environment.ProcessId);
+        var tmp = Path.Combine(Path.GetTempPath(), "eurobeamng_invisible_" + Environment.ProcessId);
         if (Directory.Exists(tmp)) Directory.Delete(tmp, true);
         Directory.CreateDirectory(tmp);
         int done = 0, failed = 0;
@@ -119,25 +119,25 @@ static class InvisibleTruck
             }
             catch (Exception e) { failed++; Console.Error.WriteLine($"skip {path}: {e.Message}"); }
         }
-        Directory.CreateDirectory(Path.Combine(tmp, "eurospeed"));
-        File.WriteAllText(Path.Combine(tmp, "eurospeed", "shadow_only.mat"), $"effect : \"{Effect}\" {{\n}}\n");
+        Directory.CreateDirectory(Path.Combine(tmp, "eurobeamng"));
+        File.WriteAllText(Path.Combine(tmp, "eurobeamng", "shadow_only.mat"), $"effect : \"{Effect}\" {{\n}}\n");
         File.WriteAllText(Path.Combine(tmp, "manifest.sii"),
             "SiiNunit\n{\nmod_package : .package_name\n{\n" +
             "\tpackage_version: \"1.0\"\n" +
-            $"\tdisplay_name: \"EuroSpeed invisible truck ({truckId})\"\n" +
-            "\tauthor: \"EuroSpeed\"\n" +
+            $"\tdisplay_name: \"EuroBeamNG invisible truck ({truckId})\"\n" +
+            "\tauthor: \"EuroBeamNG\"\n" +
             "\tcategory[]: \"truck\"\n" +
             "\tdescription_file: \"description.txt\"\n" +
             "}\n}\n");
         File.WriteAllText(Path.Combine(tmp, "description.txt"),
-            "Makes the player truck invisible (shadow and lights stay) for EuroSpeed, where a BeamNG car drives in ETS2.\n" +
+            "Makes the player truck invisible (shadow and lights stay) for EuroBeamNG, where a BeamNG car drives in ETS2.\n" +
             "Disable this mod to see your truck again.\n");
         Directory.CreateDirectory(Path.GetDirectoryName(outFile)!);
         if (File.Exists(outFile)) File.Delete(outFile);
         ZipFile.CreateFromDirectory(tmp, outFile, CompressionLevel.Optimal, false, Encoding.UTF8);
         Directory.Delete(tmp, true);
         Console.WriteLine($"models rewritten: {done}, skipped: {failed} -> {outFile}");
-        BuildPlates(Path.Combine(Path.GetDirectoryName(outFile)!, "eurospeed_invisible_plates.scs"));
+        BuildPlates(Path.Combine(Path.GetDirectoryName(outFile)!, "eurobeamng_invisible_plates.scs"));
         return done > 0 ? 0 : 1;
     }
 
@@ -145,20 +145,20 @@ static class InvisibleTruck
     // plates of all vehicles (traffic too) - kept apart so it can be turned off on its own.
     static void BuildPlates(string outFile)
     {
-        var tmp = Path.Combine(Path.GetTempPath(), "eurospeed_plates_" + Environment.ProcessId);
+        var tmp = Path.Combine(Path.GetTempPath(), "eurobeamng_plates_" + Environment.ProcessId);
         if (Directory.Exists(tmp)) Directory.Delete(tmp, true);
         Directory.CreateDirectory(Path.Combine(tmp, "material", "custom"));
         File.WriteAllText(Path.Combine(tmp, "material", "custom", "license_plate.mat"), $"effect : \"{Effect}\" {{\n}}\n");
         File.WriteAllText(Path.Combine(tmp, "manifest.sii"),
             "SiiNunit\n{\nmod_package : .package_name\n{\n" +
             "\tpackage_version: \"1.0\"\n" +
-            "\tdisplay_name: \"EuroSpeed invisible licence plates\"\n" +
-            "\tauthor: \"EuroSpeed\"\n" +
+            "\tdisplay_name: \"EuroBeamNG invisible licence plates\"\n" +
+            "\tauthor: \"EuroBeamNG\"\n" +
             "\tcategory[]: \"truck\"\n" +
             "\tdescription_file: \"description.txt\"\n" +
             "}\n}\n");
         File.WriteAllText(Path.Combine(tmp, "description.txt"),
-            "Hides licence plates (of all vehicles: the plate material is shared) for EuroSpeed.\n");
+            "Hides licence plates (of all vehicles: the plate material is shared) for EuroBeamNG.\n");
         if (File.Exists(outFile)) File.Delete(outFile);
         ZipFile.CreateFromDirectory(tmp, outFile, CompressionLevel.Optimal, false, Encoding.UTF8);
         Directory.Delete(tmp, true);

@@ -1,7 +1,7 @@
-﻿// lfs_bridge.exe - the physics-side half of EuroSpeed.
+﻿// lfs_bridge.exe - the physics-side half of EuroBeamNG.
 //
 // Receives the car from a physics game and publishes it to ETS2:
-//   BeamNG  - eurospeed.lua mod, UDP 127.0.0.1:30001 (preferred when streaming)
+//   BeamNG  - eurobeamng.lua mod, UDP 127.0.0.1:30001 (preferred when streaming)
 //   LFS     - OutSim, UDP 127.0.0.1:30000 (LFS has no code loader)
 // The car is anchored to the ETS2 truck's pose at link time; motion relative to
 // the anchor becomes the ETS2 vehicle target and camera target.
@@ -15,7 +15,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include "../protocol/eurospeed_protocol.h"
+#include "../protocol/eurobeamng_protocol.h"
 #include "../protocol/mapping.h"
 #include "roads.h"
 #include "wheel.h"
@@ -292,7 +292,7 @@ int main(int argc, char** argv) {
     bool haveDirFrom = false;
     double travelX = 0, travelZ = 0;   // the car's travel direction (ETS2 x/z, unit; 0 = unknown)
     uint64_t lastEdgeWarn = 0;
-    std::string tileDirs[2], tileVfs[2] = {"/art/eurospeed/tiles", "/art/eurospeed/tiles"};
+    std::string tileDirs[2], tileVfs[2] = {"/art/eurobeamng/tiles", "/art/eurobeamng/tiles"};
     if (tilesPath) {
         std::string d = tilesPath;
         d = d.substr(0, d.find_last_of("\\/"));
@@ -302,7 +302,7 @@ int main(int argc, char** argv) {
         tileDirs[1] = d;
     }
     // Ground as a TerrainBlock (ground.h): [ground] terrain=1 in wheel.ini. Its .ter files go to
-    // BeamNG's user folder temp\eurospeed (the tiles path runs through ...\current\...).
+    // BeamNG's user folder temp\eurobeamng (the tiles path runs through ...\current\...).
     Ground ground;
     bool groundCapable = true;        // the mod can have its TerrainBlock (no other one in the level)
     bool groundKnown = false;         // the mod said so (ESTM)
@@ -315,7 +315,7 @@ int main(int argc, char** argv) {
         if (at != std::string::npos) {
             ground.enabled = true;
             ground.hfDir = exeDir + "\\heightfield";
-            ground.terDir = t.substr(0, at) + "\\current\\temp\\eurospeed";
+            ground.terDir = t.substr(0, at) + "\\current\\temp\\eurobeamng";
             exporter.heightfieldDir = ground.hfDir;
             printf("[bridge] ground: TerrainBlock mode (height tiles %s)\n", ground.hfDir.c_str());
         }
@@ -374,7 +374,7 @@ int main(int argc, char** argv) {
         if (!tileMode) spawnStrips = roads;
     }
 
-    printf("[bridge] EuroSpeed protocol v%u | BeamNG on :%d | LFS OutSim on :%d (opts %x)\n", kVersion,
+    printf("[bridge] EuroBeamNG protocol v%u | BeamNG on :%d | LFS OutSim on :%d (opts %x)\n", kVersion,
            bngPort, port, opts);
     printf("[bridge] keys: R = re-anchor car to the ETS2 truck, Q = quit\n");
 
@@ -509,12 +509,12 @@ int main(int argc, char** argv) {
         const bool bngLive = lastBng && now - lastBng < 1000;
         const bool lfsLive = lastLfs && now - lastLfs < 1000;
         src = bngLive ? Source::BeamNG : lfsLive ? Source::Lfs : (lastBng || lastLfs ? src : Source::None);
-        // A mod that never says whether it can have the ground block (an older eurospeed.lua):
+        // A mod that never says whether it can have the ground block (an older eurobeamng.lua):
         // full mesh tiles, or the car would have no ground.
         if (!bngLive) bngLiveSince = 0;
         else if (!bngLiveSince) bngLiveSince = now;
         if (ground.enabled && !groundKnown && bngLiveSince && now - bngLiveSince > 8000) {
-            printf("[bridge] ground: the BeamNG mod does not report the ground block (old eurospeed.lua?) - roads as meshes\n");
+            printf("[bridge] ground: the BeamNG mod does not report the ground block (old eurobeamng.lua?) - roads as meshes\n");
             groundKnown = true;
             groundCapable = false;
             exporter.heightfieldDir = "";
