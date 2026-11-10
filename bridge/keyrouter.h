@@ -180,11 +180,26 @@ public:
     // BeamNG's menu is open: every key goes to it (arrows and Enter move through the menu).
     void SetMenu(bool open) { menu_ = open; }
 
+    // The driving keys held while ETS2 has focus (W/Up, S/Down, A/Left, D/Right): the bridge drives
+    // the car with them itself - ETS2 1.62 reports no throttle or brake for the parked truck.
+    enum : uint32_t { kKeyThrottle = 1, kKeyBrake = 2, kKeyLeft = 4, kKeyRight = 8 };
+    uint32_t DriveKeys() const { return driveKeys_.load(); }
+
 private:
     static inline KeyRouter* self_ = nullptr;
     KeyRouterConfig cfg_;
     std::atomic<bool> toBeamng_{true};
     std::atomic<bool> menu_{false};
+    std::atomic<uint32_t> driveKeys_{0};
+    static uint32_t DriveBit(UINT vk) {
+        switch (vk) {
+            case 'W': case VK_UP: return kKeyThrottle;
+            case 'S': case VK_DOWN: return kKeyBrake;
+            case 'A': case VK_LEFT: return kKeyLeft;
+            case 'D': case VK_RIGHT: return kKeyRight;
+        }
+        return 0;
+    }
     int port_ = 0;
     SOCKET sock_ = INVALID_SOCKET;
     sockaddr_in to_{};
@@ -243,6 +258,12 @@ private:
         if (vk == VK_LCONTROL || vk == VK_RCONTROL) ctrl_ = down;
         if (vk == VK_LMENU || vk == VK_RMENU) alt_ = down;
         if (vk == VK_LSHIFT || vk == VK_RSHIFT) shift_ = down;
+
+        // Driving keys: held while ETS2 has focus (not in BeamNG's menu); released anywhere.
+        if (const uint32_t bit = DriveBit(vk)) {
+            if (!down) driveKeys_ &= ~bit;
+            else if (!menu_.load() && Ets2Active()) driveKeys_ |= bit;
+        }
 
         // A key that went to BeamNG is released there, whatever has focus now.
         if (!down && held_.count(vk)) {

@@ -227,6 +227,8 @@ int main(int argc, char** argv) {
     auto StartPoint = [&](const Anchor&) { return startSrc; };
     bool carPlaced = false;
     uint64_t lastStream = 0, lastTeleport = 0, lastClockSent = 0, lastLeashWarn = 0, lastFuelSent = 0;
+    uint64_t lastKbMs = 0;
+    double kbThrottle = 0, kbBrake = 0;   // keyboard pedals (ramped)
     uint32_t carFuelSeq = 0;
     bool carFuelLogged = false, refuelLogged = false;
     EtsCamTarget goodCam{};      // the last camera / target ETS2 may safely see (jump guard)
@@ -530,6 +532,23 @@ int main(int argc, char** argv) {
             lastInputSeq = in.seq;
             // The wheel and pedals, read directly (ETS2 may not see them, and this works with any
             // window focused). Keyboard input coming through ETS2 still works alongside.
+            // The keyboard, read by the bridge itself (W/S/A/D, arrows): ETS2 1.62 reports only the
+            // steering for the parked truck, throttle and brake stay 0. Pedals ramp like a game's
+            // keyboard; steering goes as is (BeamNG smooths keyboard steering itself).
+            {
+                const uint32_t keys = keyCfg.enabled ? keyRouter.DriveKeys() : 0;
+                const double dt = std::clamp((now - lastKbMs) / 1000.0, 0.0, 0.1);
+                lastKbMs = now;
+                auto ramp = [&](double v, bool on, double upS, double downS) {
+                    return on ? (std::min)(1.0, v + dt / upS) : (std::max)(0.0, v - dt / downS);
+                };
+                kbThrottle = ramp(kbThrottle, (keys & KeyRouter::kKeyThrottle) != 0, 0.25, 0.08);
+                kbBrake = ramp(kbBrake, (keys & KeyRouter::kKeyBrake) != 0, 0.2, 0.08);
+                const double kbSteer = ((keys & KeyRouter::kKeyLeft) ? 1.0 : 0.0) - ((keys & KeyRouter::kKeyRight) ? 1.0 : 0.0);   // + = left
+                if (std::fabs(kbSteer) > std::fabs(in.steering)) in.steering = float(kbSteer);
+                in.throttle = (std::max)(in.throttle, float(kbThrottle));
+                in.brake = (std::max)(in.brake, float(kbBrake));
+            }
             WheelAxes wa{};
             int wheelSteering = 0;   // tells BeamNG to take steering 1:1 (no keyboard smoothing)
             int shifterGear = WheelConfig::kNoShifter;

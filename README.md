@@ -38,7 +38,9 @@ weather). Neither game is rewritten:
 
 1. **ETS2**: load your profile and sit in your truck (parked). Use windowed or borderless window
    mode, so the overlay can draw on top of it.
-2. **BeamNG.drive**: *Freeroam → Grid, Small, Pure* (a level without its own terrain), pick a car.
+2. **BeamNG.drive**: *Options → Graphics → Display mode → **Window*** (in Fullscreen BeamNG
+   minimizes itself when you click into ETS2, and the overlay has nothing to show). Then
+   *Freeroam → Grid, Small, Pure* (a level without its own terrain), pick a car.
    Turn force feedback off in BeamNG's and ETS2's controls (the bridge drives the wheel); with an
    H shifter set BeamNG's gearbox to manual.
 3. Run **`start.bat`**: the bridge and then the overlay start in their own windows. The first time
@@ -98,6 +100,6 @@ pasaulį. Tik vieno žaidėjo režimas (multiplayer'yje nieko nedaro).
 į furą (į klausimą apie *advanced SDK features* atsakyk OK), uždaryk ETS2 ir paleisk
 `make_invisible_truck.bat`. ETS2 Mod Manager'yje įjunk abu *EuroSpeed invisible* mod'us.
 
-**Žaidimas:** ETS2 lange arba be rėmelių, sėdi furoje; BeamNG: *Freeroam → Grid, Small, Pure* su
-mašina; tada `start.bat`. F12 perjungia klaviatūrą tarp BeamNG ir ETS2. Nustatymai:
+**Žaidimas:** ETS2 lange arba be rėmelių, sėdi furoje; BeamNG: *Display mode → Window* (ne
+Fullscreen), *Freeroam → Grid, Small, Pure* su mašina; tada `start.bat`. F12 perjungia klaviatūrą tarp BeamNG ir ETS2. Nustatymai:
 `bin\wheel.ini`, `bin\overlay.ini`.

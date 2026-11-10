@@ -204,6 +204,7 @@ int wmain(int argc, wchar_t** argv) {
     uint32_t* bits = nullptr;
     int dibW = 0, dibH = 0;
     bool shown = false;
+    bool srcMinimized = false;
     uint64_t frames = 0;
 
     MSG msg;
@@ -218,6 +219,17 @@ int wmain(int argc, wchar_t** argv) {
             DispatchMessageW(&msg);
         }
         if (!IsWindow(src) || !IsWindow(dst)) { wprintf(L"[overlay] a game window closed\n"); return 0; }
+
+        // A minimized BeamNG draws nothing to capture: BeamNG in Fullscreen minimizes itself when
+        // ETS2 gets the focus. Said once per time it happens.
+        if ((IsIconic(src) != FALSE) != srcMinimized) {
+            srcMinimized = !srcMinimized;
+            if (srcMinimized)
+                wprintf(L"[overlay] BeamNG is minimized - nothing to show. In BeamNG: Options > Graphics > Display mode > Window (Fullscreen minimizes it when ETS2 is clicked)\n");
+            else
+                wprintf(L"[overlay] BeamNG is back\n");
+            fflush(stdout);
+        }
 
         // Only over ETS2 while ETS2 is the active window (not over other programs).
         const HWND fg = GetForegroundWindow();
