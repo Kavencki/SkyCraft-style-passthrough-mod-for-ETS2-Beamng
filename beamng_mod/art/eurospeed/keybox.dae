@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EuroSpeed key box: a unit cube (-1..1) in the key colour, faces on both sides.
+     The mod scales it around the player car so everything outside the car renders as
+     key colour, which the overlay cuts out over ETS2. -->
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+ <asset><unit name="meter" meter="1"/><up_axis>Z_UP</up_axis></asset>
+ <library_effects><effect id="es_key-fx"><profile_COMMON><technique sid="common"><lambert><emission><color>1 0 1 1</color></emission><diffuse><color>1 0 1 1</color></diffuse></lambert></technique></profile_COMMON></effect></library_effects>
+ <library_materials><material id="es_key" name="es_key"><instance_effect url="#es_key-fx"/></material></library_materials>
+ <library_geometries><geometry id="keybox-mesh" name="keybox"><mesh>
+  <source id="keybox-pos"><float_array id="keybox-pos-array" count="24">-1 -1 -1  1 -1 -1  1 1 -1  -1 1 -1  -1 -1 1  1 -1 1  1 1 1  -1 1 1</float_array>
+   <technique_common><accessor source="#keybox-pos-array" count="8" stride="3"><param name="X" type="float"/><param name="Y" type="float"/><param name="Z" type="float"/></accessor></technique_common></source>
+  <vertices id="keybox-vtx"><input semantic="POSITION" source="#keybox-pos"/></vertices>
+  <triangles material="es_key" count="24"><input semantic="VERTEX" source="#keybox-vtx" offset="0"/><p>
+   0 1 2  0 2 3  0 2 1  0 3 2
+   4 6 5  4 7 6  4 5 6  4 6 7
+   0 5 1  0 4 5  0 1 5  0 5 4
+   1 6 2  1 5 6  1 2 6  1 6 5
+   2 7 3  2 6 7  2 3 7  2 7 6
+   3 4 0  3 7 4  3 0 4  3 4 7
+  </p></triangles>
+ </mesh></geometry></library_geometries>
+ <library_visual_scenes><visual_scene id="scene"><node id="keybox" name="keybox"><instance_geometry url="#keybox-mesh"><bind_material><technique_common><instance_material symbol="es_key" target="#es_key"/></technique_common></bind_material></instance_geometry></node></visual_scene></library_visual_scenes>
+ <scene><instance_visual_scene url="#scene"/></scene>
+</COLLADA>

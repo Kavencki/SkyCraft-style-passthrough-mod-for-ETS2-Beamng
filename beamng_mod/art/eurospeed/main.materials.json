@@ -1,0 +1,44 @@
+{
+  "es_key": {
+    "name": "es_key",
+    "mapTo": "es_key",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [1, 0, 1, 1],
+        "metallicFactor": 0,
+        "roughnessFactor": 1,
+        "emissive": true,
+        "emissiveFactor": [1, 0, 1],
+        "emissiveIntensityNits": 600
+      },
+      {},
+      {},
+      {}
+    ],
+    "doubleSided": true,
+    "castShadows": false,
+    "version": 1.5
+  },
+  "es_road": {
+    "name": "es_road",
+    "mapTo": "es_road",
+    "class": "Material",
+    "Stages": [
+      {
+        "baseColorFactor": [0, 0, 0, 1],
+        "metallicFactor": 0,
+        "roughnessFactor": 1,
+        "emissive": true,
+        "emissiveFactor": [1, 0, 1],
+        "emissiveIntensityNits": 600
+      },
+      {},
+      {},
+      {}
+    ],
+    "doubleSided": false,
+    "castShadows": false,
+    "version": 1.5
+  }
+}

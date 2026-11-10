@@ -1,0 +1,18 @@
+# build output
+build/
+release/
+tools/ets2_roads/bin/
+tools/ets2_roads/obj/
+tools/ets2_roads/roads.bin
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.log
+
+# generated in the BeamNG mod (per player)
+beamng_mod/art/eurospeed/tiles*/
+
+# local reference copies of TruckLib's sources (the build takes TruckLib from NuGet)
+third_party/TruckLib*-master/
