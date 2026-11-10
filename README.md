@@ -36,8 +36,11 @@ weather). Neither game is rewritten:
 
 ## Play
 
-1. **ETS2**: load your profile and sit in your truck (parked). Use windowed or borderless window
-   mode, so the overlay can draw on top of it.
+> **Both games must run in windowed mode** (ETS2: *Options → Graphics → Fullscreen* off; BeamNG:
+> *Display mode → Window*, below). In fullscreen the overlay cannot draw over ETS2 or capture
+> BeamNG.
+
+1. **ETS2**: windowed mode (**required**). Load your profile and sit in your truck (parked).
 2. **BeamNG.drive** settings (*Options → Graphics*), once:
 
    | Setting | Value | |
@@ -106,11 +109,14 @@ pasaulį. Tik vieno žaidėjo režimas (multiplayer'yje nieko nedaro).
 į furą (į klausimą apie *advanced SDK features* atsakyk OK), uždaryk ETS2 ir paleisk
 `make_invisible_truck.bat`. ETS2 Mod Manager'yje įjunk abu *EuroSpeed invisible* mod'us.
 
+**Abu žaidimai būtinai lange (windowed mode):** ETS2 *Options → Graphics → Fullscreen* išjungtas,
+BeamNG *Display mode → Window*. Per visą ekraną overlay negali nei piešti ant ETS2, nei filmuoti BeamNG.
+
 **BeamNG nustatymai** (*Options → Graphics*), vieną kartą:
 - *Display mode* → **Window** (būtina: Fullscreen pats susimažina paspaudus ETS2, overlay nieko nerodo);
 - *Reflections → Dynamic Reflections* → **Off** (būtina: kitaip overlay nerodo mašinos);
 - *Lighting Quality* → žemiausia (nebūtina, bet greičiau).
 
-**Žaidimas:** ETS2 lange arba be rėmelių, sėdi furoje; BeamNG: *Freeroam → Grid, Small, Pure* su
+**Žaidimas:** ETS2 lange, sėdi furoje; BeamNG lange: *Freeroam → Grid, Small, Pure* su
 mašina; tada `start.bat`. F12 perjungia klaviatūrą tarp BeamNG ir ETS2. Nustatymai:
 `bin\wheel.ini`, `bin\overlay.ini`.
